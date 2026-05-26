@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Türkiye Saati</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===================== SOL PANEL ===================== -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <span class="logo-dot"></span>
+      <span>TR Saat</span>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" title="Menüyü Kapat">&#9776;</button>
+  </div>
+
+  <ul class="nav-list">
+    <li class="nav-section-title">SAATLER</li>
+    <li class="nav-item active" data-page="canli">
+      <span class="nav-icon">🕐</span>
+      <span class="nav-label">Canlı Saat</span>
+    </li>
+    <li class="nav-item" data-page="analog">
+      <span class="nav-icon">🔵</span>
+      <span class="nav-label">Analog Saat</span>
+    </li>
+    <li class="nav-item" data-page="dunya">
+      <span class="nav-icon">🌍</span>
+      <span class="nav-label">Dünya Saatleri</span>
+    </li>
+
+    <li class="nav-section-title">ZAMANLAYICILAR</li>
+    <li class="nav-item" data-page="kronometre">
+      <span class="nav-icon">⏱</span>
+      <span class="nav-label">Kronometre</span>
+    </li>
+    <li class="nav-item" data-page="gerisayim">
+      <span class="nav-icon">⏳</span>
+      <span class="nav-label">Geri Sayım</span>
+    </li>
+
+    <li class="nav-section-title">TAKVİM</li>
+    <li class="nav-item" data-page="takvim">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">2026 Takvimi</span>
+    </li>
+  </ul>
+</nav>
+
+<!-- ===================== ANA İÇERİK ===================== -->
+<main class="main-content" id="mainContent">
+
+  <!-- Üst başlık -->
+  <header class="topbar">
+    <button class="topbar-menu-btn" id="topbarMenuBtn" title="Menüyü Aç">&#9776;</button>
+    <h1 class="topbar-title" id="topbarTitle">Canlı Saat</h1>
+  </header>
+
+  <!-- ---- SAYFA: Canlı Saat ---- -->
+  <section class="page active" id="page-canli">
+    <div class="card">
+      <div class="location-badge">
+        <div class="dot"></div>
+        İstanbul · Türkiye · UTC+3
+      </div>
+      <div class="time-display">
+        <span id="hours">--</span>
+        <span class="colon">:</span>
+        <span id="minutes">--</span>
+        <span class="colon">:</span>
+        <span id="seconds">--</span>
+      </div>
+      <div class="divider"></div>
+      <div class="date-row">
+        <div class="date-part">
+          <div class="date-num" id="day-num">--</div>
+          <div class="date-label">Gün</div>
+        </div>
+        <div class="date-sep">/</div>
+        <div class="date-part">
+          <div class="date-num" id="month-num">--</div>
+          <div class="date-label" id="month-name">Ay</div>
+        </div>
+        <div class="date-sep">/</div>
+        <div class="date-part">
+          <div class="date-num" id="year-num">--</div>
+          <div class="date-label">Yıl</div>
+        </div>
+      </div>
+      <div class="weekday" id="weekday">—</div>
+      <div class="progress-wrap">
+        <div class="progress-labels">
+          <span>Günün Başlangıcı</span>
+          <span>Gece Yarısı</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="day-progress" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- SAYFA: Analog Saat ---- -->
+  <section class="page" id="page-analog">
+    <div class="card">
+      <div class="location-badge">
+        <div class="dot"></div>
+        Analog Saat · İstanbul
+      </div>
+      <canvas id="analogClock" width="300" height="300"></canvas>
+    </div>
+  </section>
+
+  <!-- ---- SAYFA: Dünya Saatleri ---- -->
+  <section class="page" id="page-dunya">
+    <div class="card wide-card">
+      <div class="location-badge">
+        <div class="dot"></div>
+        Dünya Saatleri
+      </div>
+      <div class="world-grid" id="worldGrid"></div>
+    </div>
+  </section>
+
+  <!-- ---- SAYFA: Kronometre ---- -->
+  <section class="page" id="page-kronometre">
+    <div class="card">
+      <div class="location-badge" style="margin-bottom:2rem">⏱ Kronometre</div>
+      <div class="stopwatch-display" id="stopwatchDisplay">00:00:00.00</div>
+      <div class="btn-row">
+        <button class="ctrl-btn start" id="swStart">Başlat</button>
+        <button class="ctrl-btn stop" id="swStop">Durdur</button>
+        <button class="ctrl-btn reset" id="swReset">Sıfırla</button>
+      </div>
+      <div class="lap-list" id="lapList"></div>
+      <button class="ctrl-btn lap" id="swLap" style="margin-top:1rem">Tur</button>
+    </div>
+  </section>
+
+  <!-- ---- SAYFA: Geri Sayım ---- -->
+  <section class="page" id="page-gerisayim">
+    <div class="card">
+      <div class="location-badge" style="margin-bottom:2rem">⏳ Geri Sayım</div>
+      <input type="datetime-local" id="countdownTarget" class="date-input" />
+      <div class="countdown-grid" id="countdownGrid">
+        <div class="cd-block"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Gün</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Saat</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-mins">--</div><div class="cd-lbl">Dakika</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-secs">--</div><div class="cd-lbl">Saniye</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- SAYFA: Takvim ---- -->
+  <section class="page" id="page-takvim">
+    <div class="card wide-card">
+      <div class="cal-header">
+        <button class="cal-nav" id="calPrev">&#8592;</button>
+        <div class="cal-title" id="calTitle">—</div>
+        <button class="cal-nav" id="calNext">&#8594;</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
